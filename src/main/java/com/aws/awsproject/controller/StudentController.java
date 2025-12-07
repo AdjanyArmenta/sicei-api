@@ -95,15 +95,12 @@ public class StudentController {
             @Valid @RequestBody SessionRequest sessionRequest) {
         boolean isValid = studentService.verifySession(id, sessionRequest.getSessionString());
 
-        if (isValid) {
-            Map<String, Boolean> response = new HashMap<>();
-            response.put("valid", true);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("valid", isValid);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @PostMapping("/{id}/session/logout")
