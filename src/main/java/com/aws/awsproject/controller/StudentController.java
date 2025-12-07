@@ -98,21 +98,39 @@ public class StudentController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("valid", isValid);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
+        if (isValid) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+        }
     }
 
     @PostMapping("/{id}/session/logout")
     public ResponseEntity<Map<String, String>> logout(
             @PathVariable Integer id,
             @Valid @RequestBody SessionRequest sessionRequest) {
-        studentService.logout(id, sessionRequest.getSessionString());
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Logout successful");
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
+        try {
+            studentService.logout(id, sessionRequest.getSessionString());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Logout successful");
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(error);
+        }
     }
 
 }
