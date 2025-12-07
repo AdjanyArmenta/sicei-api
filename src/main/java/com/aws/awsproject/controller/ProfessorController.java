@@ -1,8 +1,9 @@
-package com.aws.awsproject.Controller;
+package com.aws.awsproject.controller;
 
 import com.aws.awsproject.dto.ProfessorDTO;
-import com.aws.awsproject.Entity.Professor;
-import com.aws.awsproject.Service.ProfessorService;
+import com.aws.awsproject.entity.Professor;
+import com.aws.awsproject.service.ProfessorService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

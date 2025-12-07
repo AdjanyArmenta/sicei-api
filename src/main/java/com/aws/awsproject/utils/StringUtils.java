@@ -12,7 +12,6 @@ public class StringUtils {
         String cleaned = value.trim();
         if (cleaned.isEmpty()) return cleaned;
 
-        // Capitalizar cada palabra
         String[] words = cleaned.split("\\s+");
         StringBuilder result = new StringBuilder();
 

@@ -1,13 +1,11 @@
-package com.aws.awsproject.Repository;
+package com.aws.awsproject.repository;
 
-import com.aws.awsproject.Entity.Professor;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProfessorRepository {
-    List<Professor> findAll();
-    Optional<Professor> findById(Integer id);
-    Professor save(Professor professor);
-    Professor update(Integer id, Professor professor);
-    boolean deleteById(Integer id);
+import com.aws.awsproject.entity.Professor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
+
 }

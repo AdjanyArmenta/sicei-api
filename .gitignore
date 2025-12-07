@@ -32,3 +32,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### ENV FILES ###
+.env
+.env.local
+.env.production
+application-local.properties
+application-prod.properties

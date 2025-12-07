@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class ProfessorDTO {
 
-    private Integer id;
-
     @NotNull(message = "Numero empleado is required")
     @Positive(message = "Numero empleado must be positive")
     private Integer numeroEmpleado;
