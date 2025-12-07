@@ -41,15 +41,15 @@ public class StudentService {
     }
 
     public Student updateStudent(Integer id, StudentDTO studentDTO) {
-        if (!studentRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException("Student not found with id: " + id);
-        }
-        Student student = new Student();
-        student.setNombres(StringUtils.cleanAndCapitalize(studentDTO.getNombres()));
-        student.setApellidos(StringUtils.cleanAndCapitalize(studentDTO.getApellidos()));
-        student.setMatricula(StringUtils.cleanAndUpperCase(studentDTO.getMatricula()));
-        student.setPromedio(studentDTO.getPromedio());
-        return studentRepository.save(student);
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+
+        existingStudent.setNombres(studentDTO.getNombres());
+        existingStudent.setApellidos(studentDTO.getApellidos());
+        existingStudent.setMatricula(studentDTO.getMatricula());
+        existingStudent.setPromedio(studentDTO.getPromedio());
+
+        return studentRepository.save(existingStudent);
     }
 
     public void deleteStudent(Integer id) {

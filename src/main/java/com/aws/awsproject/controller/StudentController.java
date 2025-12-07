@@ -98,7 +98,9 @@ public class StudentController {
         if (isValid) {
             Map<String, Boolean> response = new HashMap<>();
             response.put("valid", true);
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -111,7 +113,9 @@ public class StudentController {
         studentService.logout(id, sessionRequest.getSessionString());
         Map<String, String> response = new HashMap<>();
         response.put("message", "Logout successful");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
 }
