@@ -46,8 +46,8 @@ public class S3Service {
 
             s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
 
-            return String.format("https://%s.s3.%s.amazonaws.com/%s",
-                    bucketName, region, fileName);
+            return String.format("https://%s.s3.amazonaws.com/%s",
+                    bucketName, fileName);
 
         } finally {
             s3Client.close();
