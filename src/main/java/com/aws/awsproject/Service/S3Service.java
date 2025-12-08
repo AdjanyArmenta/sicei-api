@@ -24,36 +24,11 @@ public class S3Service {
     @Value("${aws.region}")
     private String region;
 
-    @Value("${aws.access-key-id}")
-    private String accessKeyId;
-
-    @Value("${aws.secret-access-key}")
-    private String secretAccessKey;
-
-    @Value("${aws.session-token:#{null}}")
-    private String sessionToken;
 
     private S3Client getS3Client() {
-        if (sessionToken != null && !sessionToken.isEmpty()) {
-            AwsSessionCredentials credentials = AwsSessionCredentials.create(
-                    accessKeyId,
-                    secretAccessKey,
-                    sessionToken
-            );
-            return S3Client.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        } else {
-            AwsBasicCredentials credentials = AwsBasicCredentials.create(
-                    accessKeyId,
-                    secretAccessKey
-            );
-            return S3Client.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        }
+        return S3Client.builder()
+                .region(Region.of(region))
+                .build();
     }
 
     public String uploadFile(MultipartFile file, Integer studentId) throws IOException {

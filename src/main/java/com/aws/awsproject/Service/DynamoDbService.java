@@ -25,14 +25,6 @@ public class DynamoDbService {
     @Value("${aws.region}")
     private String region;
 
-    @Value("${aws.access-key-id}")
-    private String accessKeyId;
-
-    @Value("${aws.secret-access-key}")
-    private String secretAccessKey;
-
-    @Value("${aws.session-token:#{null}}")
-    private String sessionToken;
 
     private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -40,26 +32,9 @@ public class DynamoDbService {
     private DynamoDbEnhancedClient getDynamoDbClient() {
         DynamoDbClient dynamoDbClient;
 
-        if (sessionToken != null && !sessionToken.isEmpty()) {
-            AwsSessionCredentials credentials = AwsSessionCredentials.create(
-                    accessKeyId,
-                    secretAccessKey,
-                    sessionToken
-            );
-            dynamoDbClient = DynamoDbClient.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        } else {
-            AwsBasicCredentials credentials = AwsBasicCredentials.create(
-                    accessKeyId,
-                    secretAccessKey
-            );
-            dynamoDbClient = DynamoDbClient.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        }
+        dynamoDbClient = DynamoDbClient.builder()
+                .region(Region.of(region))
+                .build();
 
         return DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamoDbClient)

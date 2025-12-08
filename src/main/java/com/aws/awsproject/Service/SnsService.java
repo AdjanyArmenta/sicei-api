@@ -19,45 +19,23 @@ public class SnsService {
     @Value("${aws.region}")
     private String region;
 
-    @Value("${aws.access-key-id}")
-    private String accessKeyId;
-
-    @Value("${aws.secret-access-key}")
-    private String secretAccessKey;
-
-    @Value("${aws.session-token:#{null}}")
-    private String sessionToken;
 
     private SnsClient getSnsClient() {
-        if (sessionToken != null && !sessionToken.isEmpty()) {
-            AwsSessionCredentials credentials = AwsSessionCredentials.create(
-                    accessKeyId,
-                    secretAccessKey,
-                    sessionToken
-            );
-            return SnsClient.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        } else {
-            AwsBasicCredentials credentials = AwsBasicCredentials.create(
-                    accessKeyId,
-                    secretAccessKey
-            );
-            return SnsClient.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                    .build();
-        }
+        return SnsClient.builder()
+                .region(Region.of(region))
+                .build();
     }
 
     public void sendStudentEmail(Student student) {
         String message = String.format(
-                "Información del Alumno:\n\n" +
-                        "Nombre: %s %s\n" +
-                        "Matrícula: %s\n" +
-                        "Promedio: %.2f\n\n" +
-                        "Este es un mensaje automático del sistema SICEI.",
+                """
+                        Información del Alumno:
+
+                        Nombre: %s %s
+                        Matrícula: %s
+                        Promedio: %.2f
+
+                        Este es un mensaje automático del sistema SICEI.""",
                 student.getNombres(),
                 student.getApellidos(),
                 student.getMatricula(),
